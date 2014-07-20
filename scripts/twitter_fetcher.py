@@ -16,11 +16,12 @@
 
 import tweepy
 import sys
+import os
 
-CONSUMER_KEY='REPLACE_CONSUMER_KEY'
-CONSUMER_SECRET='REPLACE_CONSUMER_SECRET'
-ACCESS_TOKEN_KEY='REPLACE_ACCESS_TOKEN_KEY'
-ACCESS_TOKEN_SECRET='REPLACE_ACCESS_TOKEN_SECRET'
+CONSUMER_KEY=os.environ["TWITTER_CONSUMER_KEY"]
+CONSUMER_SECRET=os.environ["TWITTER_CONSUMER_SECRET"]
+ACCESS_TOKEN_KEY=os.environ["TWITTER_ACCESS_TOKEN_KEY"]
+ACCESS_TOKEN_SECRET=os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN_KEY, ACCESS_TOKEN_SECRET)
@@ -37,7 +38,7 @@ for tag in hashtags:
 		results = api.search(q='#%s' % tag, max_id=maxId, count=100)
 		print len(results)
 		for result in results:
-			print result.text
+			print result.text.encode('utf-8')
 			maxId = min(maxId, result.id)
 			# only keep tweets pointing to a web page
 			if result.text.find("http:") != -1:
